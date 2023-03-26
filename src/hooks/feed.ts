@@ -8,7 +8,9 @@ const useFeed = () => {
   // use SWR to be our workhorse
   const { data, error, isLoading, size, setSize } = useSWRInfinite(
     index => API_URL + `?page=${index + 1}`,
-    fetcher
+    fetcher,
+    // poll every 10 seconds
+    { refreshInterval: 10000 }
   )
   // add the next group of stories to the end of the previously fetched stories
   const stories = data ? [].concat(...data) : []
