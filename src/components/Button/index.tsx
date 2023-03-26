@@ -1,12 +1,12 @@
 interface ButtonProps {
   text: string
   loading?: Boolean
-  handleClick?: () => {}
+  handleClick?: () => void
 }
 
 /**
  * Button
- * 
+ *
  * @prop text - text content of the `button`
  * @prop loading - `boolean` loading state
  * @prop handleClick - `function` that runs `onClick`
