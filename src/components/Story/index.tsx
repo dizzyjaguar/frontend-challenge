@@ -19,7 +19,7 @@ interface StoryProps {
 function Story({ title, storyImage, authorName, authorImage }: StoryProps) {
   return (
     <div
-      className={`border-[1px] border-[#DDDDDD] h-[192px] p-4 flex flex-row`}
+      className={`border-[1px] border-[#DDDDDD] h-[192px] p-4 flex flex-row mb-4`}
     >
       <div className={`w-[50%] h-full mr-4 relative`}>
         <Image
