@@ -1,22 +1,17 @@
-import axios from 'axios'
-import useSwr from 'swr'
 import Button from '../Button'
 import Story from '../Story'
-import { API_URL } from '../../constants'
-
-const fetcher = (url: string) => axios.get(url).then(res => res.data)
+import useFeed from '../../hooks/feed'
 
 function Feed() {
-  const { data, error, isLoading } = useSwr(API_URL, fetcher)
-  console.log(data)
+  const { stories, error, isLoading, isLoadingMore, fetchMore } = useFeed()
 
   return (
     <div className="w-full mt-4">
-      {isLoading ? (
-        <h1>Loading...</h1>
+      {error ? (
+        <h1 className="text-red-400">{error?.message}</h1>
       ) : (
-        data &&
-        data.map((story: any) => (
+        stories &&
+        stories.map((story: any) => (
           <Story
             key={story.id}
             title={story.title}
@@ -28,7 +23,11 @@ function Feed() {
       )}
 
       <div className="mt-4">
-        <Button text="Load More" />
+        <Button
+          text="Load More"
+          loading={isLoading || isLoadingMore}
+          handleClick={fetchMore}
+        />
       </div>
     </div>
   )
