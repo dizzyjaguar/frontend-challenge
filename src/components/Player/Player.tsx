@@ -7,29 +7,38 @@ function Player() {
 
   const fetchPodcasts = async () => {
     let res = await axios.get(
-      `https://mcsorleys.barstoolsports.com/feed/pardon-my-take`
+      `https://mcsorleys.barstoolsports.com/feed/pardon-my-take`,
+      // parse the incoming xml with axios
+      { responseType: 'document' }
     )
-    let { data } = res
 
-    return { data }
+    let { data } = res
+    console.log(data)
+    return data
   }
 
   useEffect(() => {
     const getPodcasts = async () => {
-      const podcasts = await fetchPodcasts()
-      setPodcastData(podcasts)
+      const podcastsXML = await fetchPodcasts()
+      const podcastsItems = podcastsXML.querySelectorAll('item')
+
+      const shapedPodcasts = [...podcastsItems].map(element => ({
+        // grab the desired text inside the <!CDATA tag
+        title: element.querySelector('title').innerHTML.slice(9, -3),
+        // grab the url attribute
+        link: element.querySelector('enclosure').getAttribute('url'),
+      }))
+      setPodcastData(shapedPodcasts)
     }
 
     getPodcasts()
-
-    return () => {}
   }, [])
 
   console.log(podcastData)
 
   return (
     <div className="sticky bottom-0">
-      <AudioPlayer />
+      <AudioPlayer trackTitle={podcastData ? podcastData[0].title : 'Loading...'} trackUrl={podcastData & podcastData[0].link} />
     </div>
   )
 }
