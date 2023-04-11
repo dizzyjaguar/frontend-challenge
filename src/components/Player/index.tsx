@@ -3,14 +3,14 @@ import { AudioPlayer } from '@barstoolsports/react-audio-player'
 import usePodcasts from '../../hooks/podcasts'
 
 function Player() {
-  const { podcastData } = usePodcasts()
-
+  const { currentEpisode } = usePodcasts()
+  console.log(currentEpisode)
   return (
-    <div className="sticky bottom-0 mt-4">
-      {podcastData ? (
+    <div className="sticky bottom-0 my-4">
+      {currentEpisode !== null ? (
         <AudioPlayer
-          trackTitle={podcastData ? podcastData[0].title : 'Loading...'}
-          trackUrl={podcastData && podcastData[0].link}
+          trackTitle={currentEpisode ? currentEpisode.title : 'Loading...'}
+          trackUrl={currentEpisode && currentEpisode.link}
         />
       ) : (
         <h1>Loading Audio Player</h1>
