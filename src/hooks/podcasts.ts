@@ -1,19 +1,17 @@
-import { AudioPlayer } from '@barstoolsports/react-audio-player'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-function Player() {
+const usePodcasts = () => {
   const [podcastData, setPodcastData] = useState<any>(null)
 
   const fetchPodcasts = async () => {
     let res = await axios.get(
       `https://mcsorleys.barstoolsports.com/feed/pardon-my-take`,
-      // parse the incoming xml with axios
+      // parse the incoming xml automatically with axios
       { responseType: 'document' }
     )
 
     let { data } = res
-    console.log(data)
     return data
   }
 
@@ -36,11 +34,7 @@ function Player() {
 
   console.log(podcastData)
 
-  return (
-    <div className="sticky bottom-0">
-      <AudioPlayer trackTitle={podcastData ? podcastData[0].title : 'Loading...'} trackUrl={podcastData & podcastData[0].link} />
-    </div>
-  )
+  return { podcastData }
 }
 
-export default Player
+export default usePodcasts
