@@ -1,8 +1,14 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
+type podcast = {
+  title: string
+  link: string
+}
+
 const usePodcasts = () => {
-  const [podcastData, setPodcastData] = useState<any>(null)
+  const [podcastData, setPodcastData] = useState<podcast[] | null>(null)
+  const [currentEpisode, setCurrentEpisode] = useState<podcast | null>(null)
 
   const fetchPodcasts = async () => {
     let res = await axios.get(
@@ -26,15 +32,21 @@ const usePodcasts = () => {
         // grab the url attribute
         link: element.querySelector('enclosure').getAttribute('url'),
       }))
-      setPodcastData(shapedPodcasts)
+      // only set the first 20 episodes
+      setPodcastData(shapedPodcasts.slice(0, 20))
+      // set the newest episode first
+      setCurrentEpisode(shapedPodcasts[0])
     }
 
     getPodcasts()
   }, [])
 
-  console.log(podcastData)
+  // handler for updating the current episode
+  const changeEpisode = (episode: podcast) => {
+    setCurrentEpisode(episode)
+  }
 
-  return { podcastData }
+  return { podcastData, currentEpisode, changeEpisode }
 }
 
 export default usePodcasts
