@@ -1,14 +1,14 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-type podcast = {
+export type podcast = {
   title: string
   link: string
 }
 
 const usePodcasts = () => {
-  const [podcastData, setPodcastData] = useState<podcast[] | null>(null)
-  const [currentEpisode, setCurrentEpisode] = useState<podcast | null>(null)
+  const [podcastData, setPodcastData] = useState<podcast[] | undefined>(undefined)
+  const [currentEpisode, setCurrentEpisode] = useState<podcast | undefined>(undefined)
 
   const fetchPodcasts = async () => {
     let res = await axios.get(
