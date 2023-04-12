@@ -1,21 +1,33 @@
-import usePodcasts from '../../hooks/podcasts'
+import { podcast } from '../../hooks/podcasts'
 
-function EpisodesTable() {
-  const { podcastData, changeEpisode, currentEpisode } = usePodcasts()
-  console.log(currentEpisode)
+interface props {
+  podcastData: podcast[] | undefined
+  handleClick: (episode: podcast) => void
+}
 
-  const podcastNodes = podcastData?.map(podcast => (
+function EpisodesTable({ podcastData, handleClick }: props) {
+  const podcastNodes = podcastData?.map((podcast: podcast) => (
     <tr key={podcast.title} className="border-black border-b-[1px]">
       <td>
         <p className="text-sm">{podcast.title}</p>
       </td>
-      <button onClick={() => changeEpisode(podcast)}>Listen</button>
+      <td>
+        <button
+          className=" hover:text-gray-300"
+          onClick={() => handleClick(podcast)}
+        >
+          Listen
+        </button>
+      </td>
     </tr>
   ))
 
   return (
     <div className="w-full">
-      <table>{podcastNodes}</table>
+      <h1 className="mb-2 text-lg">Recent Episodes</h1>
+      <table>
+        <tbody>{podcastNodes}</tbody>
+      </table>
     </div>
   )
 }
