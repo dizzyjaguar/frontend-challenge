@@ -1,8 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Feed from '../src/components/Feed'
-import Player from '../src/components/Player'
-import EpisodesTable from '../src/components/EpisodesTable'
+import PodcastContainer from '../src/components/PodcastContainer'
 
 export default function Home() {
   return (
@@ -15,8 +14,7 @@ export default function Home() {
       </header>
       <main>
         <Feed />
-        <Player />
-        <EpisodesTable />
+        <PodcastContainer />
       </main>
       <footer className="flex justify-center items-center w-full py-5 mt-10 border-t border-[#eaeaea]">
         &copy; Barstool Sports
